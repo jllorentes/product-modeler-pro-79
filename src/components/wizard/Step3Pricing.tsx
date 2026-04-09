@@ -18,6 +18,10 @@ interface Step3Props {
   setRenewalAction: (v: string) => void;
   renewFromPeriod: string;
   setRenewFromPeriod: (v: string) => void;
+  trialDurationNumber: string;
+  setTrialDurationNumber: (v: string) => void;
+  trialDurationUnit: string;
+  setTrialDurationUnit: (v: string) => void;
 }
 
 export function Step3Pricing({ periods, setPeriods, renewalAction, setRenewalAction, renewFromPeriod, setRenewFromPeriod }: Step3Props) {

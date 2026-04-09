@@ -23,6 +23,7 @@ export function Step1SPMConnection({ spmId, setSpmId, fetched, setFetched, clone
   const [loading, setLoading] = useState(false);
 
   const handleFetch = () => {
+
     setLoading(true);
     setTimeout(() => { setFetched(true); setLoading(false); }, 800);
   };

@@ -8,6 +8,8 @@ interface Step4Props {
   setWorkflow: (v: string) => void;
   provisioningSet: string;
   setProvisioningSet: (v: string) => void;
+  providerProductId: string;
+  setProviderProductId: (v: string) => void;
 }
 
 export function Step4Integration({ workflow, setWorkflow, provisioningSet, setProvisioningSet }: Step4Props) {
