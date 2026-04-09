@@ -11,6 +11,8 @@ import { spmMockData, mockProducts } from "@/data/mockData";
 interface Step1Props {
   spmId: string;
   setSpmId: (v: string) => void;
+  qaProductId: string;
+  setQaProductId: (v: string) => void;
   fetched: boolean;
   setFetched: (v: boolean) => void;
   cloneEnabled: boolean;
@@ -19,10 +21,11 @@ interface Step1Props {
   setCloneSource: (v: string) => void;
 }
 
-export function Step1SPMConnection({ spmId, setSpmId, fetched, setFetched, cloneEnabled, setCloneEnabled, cloneSource, setCloneSource }: Step1Props) {
+export function Step1SPMConnection({ spmId, setSpmId, qaProductId, setQaProductId, fetched, setFetched, cloneEnabled, setCloneEnabled, cloneSource, setCloneSource }: Step1Props) {
   const [loading, setLoading] = useState(false);
 
   const handleFetch = () => {
+
     setLoading(true);
     setTimeout(() => { setFetched(true); setLoading(false); }, 800);
   };
@@ -44,6 +47,11 @@ export function Step1SPMConnection({ spmId, setSpmId, fetched, setFetched, clone
             <Search className="mr-2 h-4 w-4" />{loading ? "Fetching..." : "Fetch Data"}
           </Button>
         </div>
+      </div>
+
+      <div>
+        <Label htmlFor="qaId" className="text-sm text-muted-foreground">QA Product ID (Optional, for testing purposes)</Label>
+        <Input id="qaId" placeholder="e.g. QA-SPM-DE-10234" value={qaProductId} onChange={(e) => setQaProductId(e.target.value)} className="mt-1.5" />
       </div>
 
       <div className="flex items-center gap-3 p-3 rounded-md bg-muted/50">

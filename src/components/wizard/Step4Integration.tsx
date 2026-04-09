@@ -1,5 +1,6 @@
-import { Workflow, Server } from "lucide-react";
+import { Workflow, Server, Tag } from "lucide-react";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { workflowConfigurations, provisioningSets } from "@/data/mockData";
 
@@ -8,9 +9,11 @@ interface Step4Props {
   setWorkflow: (v: string) => void;
   provisioningSet: string;
   setProvisioningSet: (v: string) => void;
+  providerProductId: string;
+  setProviderProductId: (v: string) => void;
 }
 
-export function Step4Integration({ workflow, setWorkflow, provisioningSet, setProvisioningSet }: Step4Props) {
+export function Step4Integration({ workflow, setWorkflow, provisioningSet, setProvisioningSet, providerProductId, setProviderProductId }: Step4Props) {
   return (
     <div className="space-y-6 animate-fade-in">
       <div>
@@ -43,6 +46,14 @@ export function Step4Integration({ workflow, setWorkflow, provisioningSet, setPr
               {provisioningSets.map((p) => <SelectItem key={p} value={p}>{p}</SelectItem>)}
             </SelectContent>
           </Select>
+        </div>
+
+        <div className="p-4 rounded-lg border space-y-2">
+          <div className="flex items-center gap-2 mb-2">
+            <Tag className="h-4 w-4 text-primary" />
+            <Label className="font-medium">Provider-specific Product ID</Label>
+          </div>
+          <Input placeholder="e.g. ZUR-PROD-5Y-001" value={providerProductId} onChange={(e) => setProviderProductId(e.target.value)} />
         </div>
       </div>
     </div>
