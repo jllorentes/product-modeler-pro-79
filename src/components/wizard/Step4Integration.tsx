@@ -46,6 +46,14 @@ export function Step4Integration({ workflow, setWorkflow, provisioningSet, setPr
             </SelectContent>
           </Select>
         </div>
+
+        <div className="p-4 rounded-lg border space-y-2">
+          <div className="flex items-center gap-2 mb-2">
+            <Tag className="h-4 w-4 text-primary" />
+            <Label className="font-medium">Provider-specific Product ID</Label>
+          </div>
+          <Input placeholder="e.g. ZUR-PROD-5Y-001" value={providerProductId} onChange={(e) => setProviderProductId(e.target.value)} />
+        </div>
       </div>
     </div>
   );

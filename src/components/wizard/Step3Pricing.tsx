@@ -24,7 +24,7 @@ interface Step3Props {
   setTrialDurationUnit: (v: string) => void;
 }
 
-export function Step3Pricing({ periods, setPeriods, renewalAction, setRenewalAction, renewFromPeriod, setRenewFromPeriod }: Step3Props) {
+export function Step3Pricing({ periods, setPeriods, renewalAction, setRenewalAction, renewFromPeriod, setRenewFromPeriod, trialDurationNumber, setTrialDurationNumber, trialDurationUnit, setTrialDurationUnit }: Step3Props) {
   const addPeriod = () => setPeriods([...periods, { price: "", durationNumber: "1", durationUnit: "Months" }]);
   const removePeriod = (i: number) => setPeriods(periods.filter((_, idx) => idx !== i));
   const updatePeriod = (i: number, field: keyof PricingPeriod, value: string) => {
@@ -39,6 +39,30 @@ export function Step3Pricing({ periods, setPeriods, renewalAction, setRenewalAct
         <h3 className="text-lg font-semibold mb-1">Pricing & Validity Periods</h3>
         <p className="text-sm text-muted-foreground">Define the pricing lifecycle for this subscription product.</p>
       </div>
+
+      <Card className="bg-muted/30">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-sm">Trial Period (Optional)</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <Label className="text-xs">Duration</Label>
+              <Input className="mt-1" type="number" min="0" placeholder="0" value={trialDurationNumber} onChange={(e) => setTrialDurationNumber(e.target.value)} />
+            </div>
+            <div>
+              <Label className="text-xs">Unit</Label>
+              <Select value={trialDurationUnit} onValueChange={setTrialDurationUnit}>
+                <SelectTrigger className="mt-1"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Months">Months</SelectItem>
+                  <SelectItem value="Years">Years</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       <div className="space-y-3">
         {periods.map((p, i) => (
