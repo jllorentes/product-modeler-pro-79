@@ -1,5 +1,6 @@
-import { Workflow, Server } from "lucide-react";
+import { Workflow, Server, Tag } from "lucide-react";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { workflowConfigurations, provisioningSets } from "@/data/mockData";
 
@@ -12,7 +13,7 @@ interface Step4Props {
   setProviderProductId: (v: string) => void;
 }
 
-export function Step4Integration({ workflow, setWorkflow, provisioningSet, setProvisioningSet }: Step4Props) {
+export function Step4Integration({ workflow, setWorkflow, provisioningSet, setProvisioningSet, providerProductId, setProviderProductId }: Step4Props) {
   return (
     <div className="space-y-6 animate-fade-in">
       <div>

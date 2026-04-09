@@ -1,12 +1,12 @@
 import { useState, useMemo } from "react";
-import { Plus, Upload, Download, Search, SlidersHorizontal, Package } from "lucide-react";
+import { Plus, Upload, Download, Search, Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ProductTable } from "@/components/ProductTable";
 import { ProductWizard } from "@/components/ProductWizard";
 import { ExcelImportModal } from "@/components/ExcelImportModal";
-import { mockProducts, countries } from "@/data/mockData";
+import { mockProducts as initialProducts, countries } from "@/data/mockData";
 import type { Product } from "@/data/mockData";
 
 export default function Index() {
@@ -15,19 +15,25 @@ export default function Index() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [wizardOpen, setWizardOpen] = useState(false);
   const [importOpen, setImportOpen] = useState(false);
+  const [products, setProducts] = useState<Product[]>(initialProducts);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
 
   const filtered = useMemo(() => {
-    return mockProducts.filter((p) => {
+    return products.filter((p) => {
       const matchSearch = !search || p.name.toLowerCase().includes(search.toLowerCase()) || p.globalId.toLowerCase().includes(search.toLowerCase());
       const matchCountry = countryFilter === "all" || p.country === countryFilter;
       const matchStatus = statusFilter === "all" || p.status === statusFilter;
       return matchSearch && matchCountry && matchStatus;
     });
-  }, [search, countryFilter, statusFilter]);
+  }, [search, countryFilter, statusFilter, products]);
+
+  const handleStatusChange = (ids: string[], status: Product["status"]) => {
+    setProducts(prev => prev.map(p => ids.includes(p.id) ? { ...p, status } : p));
+    setSelectedIds([]);
+  };
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Top bar */}
       <header className="border-b bg-card">
         <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
@@ -41,11 +47,10 @@ export default function Index() {
       </header>
 
       <main className="max-w-7xl mx-auto px-6 py-8">
-        {/* Page header */}
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-2xl font-bold tracking-tight">Service Products</h1>
-            <p className="text-sm text-muted-foreground mt-0.5">{mockProducts.length} products configured</p>
+            <p className="text-sm text-muted-foreground mt-0.5">{products.length} products configured</p>
           </div>
           <div className="flex items-center gap-2">
             <Button variant="outline" onClick={() => setImportOpen(true)}>
@@ -60,7 +65,6 @@ export default function Index() {
           </div>
         </div>
 
-        {/* Filters */}
         <div className="flex items-center gap-3 mb-4">
           <div className="relative flex-1 max-w-sm">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -84,11 +88,15 @@ export default function Index() {
           </Select>
         </div>
 
-        {/* Table */}
-        <ProductTable products={filtered} onClone={() => setWizardOpen(true)} />
+        <ProductTable
+          products={filtered}
+          onClone={() => setWizardOpen(true)}
+          selectedIds={selectedIds}
+          onSelectionChange={setSelectedIds}
+          onStatusChange={handleStatusChange}
+        />
       </main>
 
-      {/* Modals */}
       {wizardOpen && <ProductWizard onClose={() => setWizardOpen(false)} />}
       <ExcelImportModal open={importOpen} onClose={() => setImportOpen(false)} />
     </div>
